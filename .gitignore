@@ -1,0 +1,7 @@
+.idea
+config/local.neon
+log
+node_modules
+sessions
+temp
+www/data
