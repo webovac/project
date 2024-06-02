@@ -15,7 +15,7 @@
 	},
 	"require-dev": {
 		"nette/tester": "~2.5.0",
-		"webovac/generator": "~0.1.0",
+		"webovac/generator": "dev-main",
 		"nikic/php-parser": "~5.0.0"
 	},
 	"autoload": {
