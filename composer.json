@@ -4,6 +4,9 @@
 	"keywords": ["webovac", "nette", "nextras", "cms", "project"],
 	"type": "project",
 	"license": ["MIT", "BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"repositories": [
+		{"type": "vcs", "url": "https://github.com/webovac/core"}
+	],
 	"require": {
 		"php": ">=8.1",
 		"webovac/core": "~0.1.0"
