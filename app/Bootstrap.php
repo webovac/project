@@ -21,7 +21,6 @@ class Bootstrap
 		$configurator
 			->createRobotLoader()
 			->addDirectory(__DIR__)
-			->addDirectory(__DIR__ . '/../lib')
 			->register();
 
 		$configurator->setDebugMode(getenv('NETTE_DEVEL') === '1');
