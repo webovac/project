@@ -5,7 +5,7 @@ Installation
 ------------
 [comment]: # (Still another comment)
 ```
-composer create-project nette/web-project path/to/install
+composer create-project webovac/project path/to/install
 mkdir temp log sessions
 chmod -R a+rw temp log sessions
 chmod +x bin/clear-cache
