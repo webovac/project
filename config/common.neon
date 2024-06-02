@@ -1,0 +1,56 @@
+application:
+	catchExceptions: %productionMode%
+	errorPresenter: Error
+	mapping:
+		*: 'Webovac\Core\Presenter\*\**Presenter'
+
+session:
+	expiration: 14 days
+	save_path: %tempDir%/../sessions
+	cookieDomain: %session.cookieDomain%
+
+services:
+	latte.templateFactory: App\Lib\TemplateFactory
+	- App\Model\DataModel
+
+search:
+	control:
+		in: %appDir%
+		classes: I*Control
+	lib:
+		in: %appDir%
+		classes: 'App\**\Lib\**'
+	dataRepository:
+		in: %appDir%
+		extends: Webovac\Core\Model\CmsDataRepository
+
+decorator:
+	Nette\Application\UI\TemplateFactory:
+		inject: true
+	App\Model\DataModel:
+		inject: true
+	Webovac\Core\Model\CmsDataRepository:
+		inject: true
+	Webovac\Core\Model\CmsRepository:
+		inject: true
+
+extensions:
+	dbal: Nextras\Dbal\Bridges\NetteDI\DbalExtension
+	migrations: Nextras\Migrations\Bridges\NetteDI\MigrationsExtension
+	webovac.core: Webovac\Core\DI\CoreExtension(%rootDir%, %webovac%)
+
+dbal:
+	driver: %nextras.dbal.driver%
+	host: localhost
+	database: %nextras.dbal.database%
+	username: %nextras.dbal.username%
+	password: %nextras.dbal.password%
+	connectionTz: auto-offset
+	searchPath: [public]
+	panelQueryExplain: false
+
+migrations:
+	dir: %appDir%/../migrations
+	driver: %nextras.migrations.driver%
+	dbal: nextras
+	withDummyData: %debugMode%

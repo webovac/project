@@ -1,0 +1,23 @@
+parameters:
+	webovac:
+		cmsHost: 'cms.test'
+		icons:
+			fas: Solid
+			far: Regular
+		fonts:
+			- system
+			- Arial
+			- Segoe UI
+			- Tahoma
+			- Trebuchet MS
+			- Verdana
+	nextras:
+		dbal:
+			driver: pgsql
+			database: cms
+			username:
+			password:
+		migrations:
+			driver: pgsql
+	session:
+		cookieDomain: cms.test
