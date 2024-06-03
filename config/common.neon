@@ -1,6 +1,7 @@
 application:
 	catchExceptions: %productionMode%
 	errorPresenter: Error
+	scanDirs: [%vendorDir%/webovac/core]
 	mapping:
 		*: 'Webovac\Core\Presenter\*\**Presenter'
 
@@ -12,6 +13,7 @@ session:
 services:
 	latte.templateFactory: App\Lib\TemplateFactory
 	- App\Model\DataModel
+	- App\Lib\AppFileUploader
 
 search:
 	control:
@@ -54,3 +56,8 @@ migrations:
 	driver: %nextras.migrations.driver%
 	dbal: nextras
 	withDummyData: %debugMode%
+
+imageStorage:
+	data_path: %rootDir%/www/data
+	data_dir: data
+	default_transform: exact

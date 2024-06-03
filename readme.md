@@ -1,11 +1,10 @@
 Webovac Project
-=================
+===============
 
 Installation
 ------------
-[comment]: # (Still another comment)
 ```
-composer create-project webovac/project path/to/install
+composer create-project webovac/project path
 mkdir temp log sessions
 chmod -R a+rw temp log sessions
 chmod +x bin/clear-cache
