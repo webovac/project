@@ -8,12 +8,11 @@ application:
 session:
 	expiration: 14 days
 	save_path: %tempDir%/../sessions
-	cookieDomain: %session.cookieDomain%
+#	cookieDomain: %session.cookieDomain%
 
 services:
 	latte.templateFactory: App\Lib\TemplateFactory
 	- App\Model\DataModel
-	- App\Lib\AppFileUploader
 
 search:
 	control:
