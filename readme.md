@@ -9,6 +9,7 @@ mkdir temp log sessions
 chmod -R a+rw temp log sessions
 chmod +x bin/clear-cache
 cp config/dev.neon config/local.neon 
+php vendor/webovac/core/src/install.php
 ```
 Setup local parameters in `config/local.neon`
 ```

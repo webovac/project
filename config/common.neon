@@ -38,6 +38,7 @@ decorator:
 extensions:
 	dbal: Nextras\Dbal\Bridges\NetteDI\DbalExtension
 	migrations: Nextras\Migrations\Bridges\NetteDI\MigrationsExtension
+	imageStorage: Contributte\ImageStorage\DI\ImageStorageExtension
 	webovac.core: Webovac\Core\DI\CoreExtension(%rootDir%, %webovac%)
 
 dbal:
