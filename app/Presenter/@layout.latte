@@ -1,4 +1,4 @@
-{varType App\Model\Language\LanguageData $language}
+{varType App\Model\Language\LanguageData $languageData}
 {varType Nextras\Orm\Entity\IEntity|null $entity}
 {varType App\Model\Page\PageData $pageData}
 {varType App\Model\PageTranslation\PageTranslation $pageTranslation}
@@ -7,9 +7,16 @@
 {varType App\Model\WebTranslation\WebTranslationData $webTranslationData}
 {varType App\Model\Layout\LayoutData $layoutData}
 {varType App\Model\Theme\ThemeData $themeData}
-{varType App\Model\Page\PageData $adminPageData}
 {varType App\Model\Web\WebData[] $webDatas}
 {varType Webovac\Core\Lib\CmsUser $cmsUser}
+{varType bool $hasSideMenu}
+{varType string|null $entityName}
+{varType string $title}
+{varType string $metaTitle}
+{varType string $metaType}
+{varType string $metaUrl}
+{varType bool $showAdmin}
+{varType array $bodyClasses}
 <!DOCTYPE html>
 <html lang="{$languageData->shortcut}">
 <head>
@@ -17,7 +24,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 	<meta name="description" n:ifset="$pageTranslation->description" content="{$pageTranslationData->description|truncate:300}">
-	<meta name="theme-color" content="{$themeData->bodyBg}">
+	<meta name="theme-color" content="{$webData->color}">
 	<meta property="og:type" content="{$entity ? $entityName : 'page'}">
 	<meta property="og:title" content="{$metaTitle|truncate:60}">
 	<meta property="og:description" n:if="$pageTranslation->description" content="{$pageTranslationData->description|truncate:300}">
