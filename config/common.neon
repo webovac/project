@@ -21,6 +21,9 @@ search:
 	lib:
 		in: %appDir%
 		classes: 'App\**\Lib\**'
+	module:
+		in: %appDir%
+		implements: Webovac\Core\Module
 	dataRepository:
 		in: %appDir%
 		extends: Webovac\Core\Model\CmsDataRepository
