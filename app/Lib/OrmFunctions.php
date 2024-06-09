@@ -15,12 +15,6 @@ class OrmFunctions
 {
 	public const string LIKE_FILTER = 'likeFilter';
 	public const string PERSON_FILTER = 'personFilter';
-	public const string PERSON_ORDER = 'personOrder';
-	public const array CUSTOM_FUNCTIONS = [
-		self::LIKE_FILTER => true,
-		self::PERSON_FILTER => true,
-		self::PERSON_ORDER => true,
-	];
 
 
 	public static function call(string $name)
