@@ -1,6 +1,7 @@
 application:
 	catchExceptions: %productionMode%
 	errorPresenter: Error
+	scanDirs: [%vendorDir%/webovac/core]
 	mapping:
 		*: 'Webovac\Core\Presenter\*\**Presenter'
 
