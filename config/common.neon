@@ -6,7 +6,7 @@ application:
 
 session:
 	expiration: 14 days
-	save_path: %rootDir%/sessions
+	savePath: %rootDir%/sessions
 	cookieDomain: %webovac.core.host%
 
 extensions:
