@@ -15,9 +15,7 @@
 		"contributte/image-storage": "~3.0.0"
 	},
 	"require-dev": {
-		"nette/tester": "~2.5.0",
-		"webovac/generator": "dev-main",
-		"nikic/php-parser": "~5.0.0"
+		"nette/tester": "~2.5.0"
 	},
 	"autoload": {
 		"psr-4": {
