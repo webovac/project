@@ -7,13 +7,14 @@ use Contributte\ImageStorage\Exception\ImageResizeException;
 use Contributte\ImageStorage\ImageStorage;
 use Nette\Http\FileUpload;
 use Nette\Utils\Strings;
+use Stepapo\Utils\Service;
 use Webovac\Core\Lib\Dir;
 use Webovac\Core\Lib\FileUploader;
 
 
-class AppFileUploader implements FileUploader
+class AppFileUploader implements FileUploader, Service
 {
-	private const ALGORITHM_CONTENT = 'sha1';
+	public const ALGORITHM_CONTENT = 'sha1';
 
 
 	public function __construct(private ImageStorage $imageStorage, private Dir $dir)
