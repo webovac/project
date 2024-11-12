@@ -9,23 +9,23 @@ use Nette\Bootstrap\Configurator;
 
 class Bootstrap
 {
-	public static function boot(): Configurator
+	public static function boot($testMode = false): Configurator
 	{
-		$appDir = dirname(__DIR__);
-
+		$rootDir = dirname(__DIR__);
 		$configurator = (new Configurator)
-			->setTempDirectory($appDir . '/temp')
-			->addConfig($appDir . '/config/common.neon')
-			->addConfig($appDir . '/config/local.neon');
-
+			->setTempDirectory($rootDir . '/temp')
+			->addConfig($rootDir . '/config/common.neon')
+			->addConfig($rootDir . '/config/local.neon');
+		if ($testMode) {
+			$configurator->addConfig($rootDir . '/config/test.neon');
+		}
 		$configurator
 			->createRobotLoader()
-			->addDirectory(__DIR__)
+			->addDirectory($rootDir . '/app')
 			->register();
-
-		$configurator->setDebugMode(getenv('NETTE_DEVEL') === '1');
-		$configurator->enableTracy($appDir . '/log');
-
+		$configurator
+			->setDebugMode(!$testMode && getenv('NETTE_DEVEL') === '1')
+			->enableTracy($rootDir . '/log');
 		return $configurator;
 	}
 }

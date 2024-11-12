@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Lib;
 
 use Contributte\ImageStorage\Exception\ImageExtensionException;
@@ -14,9 +16,6 @@ use Webovac\Core\Lib\FileUploader;
 
 class AppFileUploader implements FileUploader, Service
 {
-	public const ALGORITHM_CONTENT = 'sha1';
-
-
 	public function __construct(private ImageStorage $imageStorage, private Dir $dir)
 	{}
 
@@ -24,7 +23,16 @@ class AppFileUploader implements FileUploader, Service
 	/** @throws ImageExtensionException */
 	public function upload(FileUpload $upload, string $namespace = 'cms'): string
 	{
-		return $upload->isImage() ? $this->uploadImage($upload, $namespace) : $this->uploadFile($upload, $namespace);
+		$content = file_get_contents($upload->getTemporaryFile());
+		$checksum = call_user_func_array(self::ALGORITHM_CONTENT, [$content]);
+		[$path, $identifier] = $this->getSavePath(
+			Strings::webalize($this->getSanitizedName($upload), '._'),
+			$namespace,
+			$checksum
+		);
+		file_put_contents($path, $content, LOCK_EX);
+		unlink($upload->getTemporaryFile());
+		return $identifier;
 	}
 
 
@@ -32,6 +40,7 @@ class AppFileUploader implements FileUploader, Service
 	{
 		$this->imageStorage->delete($identifier);
 	}
+
 
 	/** @throws ImageResizeException */
 	public function getResponse(FileUpload $upload, string $namespace = 'cms'): array
@@ -62,28 +71,6 @@ class AppFileUploader implements FileUploader, Service
 	}
 
 
-	private function uploadImage(FileUpload $upload, string $namespace): string
-	{
-		$savedFile = $this->imageStorage->saveContent(file_get_contents($upload->getTemporaryFile()), $upload->getSanitizedName(), $namespace);
-		return $savedFile->identifier;
-	}
-
-
-	/** @throws ImageExtensionException */
-	private function uploadFile(FileUpload $upload, string $namespace): string
-	{
-		$content = file_get_contents($upload->getTemporaryFile());
-		$checksum = call_user_func_array(self::ALGORITHM_CONTENT, [$content]);
-		[$path, $identifier] = $this->getSavePath(
-			Strings::webalize($upload->getSanitizedName(), '._'),
-			$namespace,
-			$checksum
-		);
-		file_put_contents($path, $content, LOCK_EX);
-		return $identifier;
-	}
-
-
 	/** @throws ImageExtensionException */
 	private function getSavePath(string $name, string $namespace, string $checksum): array
 	{
@@ -105,5 +92,36 @@ class AppFileUploader implements FileUploader, Service
 		}
 		$identifier = implode('/', [$namespace, $prefix, $name . $extension]);
 		return [$path, $identifier];
+	}
+
+
+	private function getSanitizedName(FileUpload $upload): string
+	{
+		$name = Strings::webalize($upload->name, '.', lower: false);
+		$name = str_replace(['-.', '.-'], '.', $name);
+		$name = trim($name, '.-');
+		$name = $name === '' ? 'unknown' : $name;
+		if ($ext = $this->getSuggestedExtension($upload)) {
+			$name = preg_replace('#\.[^.]+$#D', '', $name);
+			$name .= '.' . $ext;
+		}
+
+		return $name;
+	}
+
+
+	private function getSuggestedExtension(FileUpload $upload): ?string
+	{
+		if ($upload->isOk()) {
+			$exts = finfo_file(finfo_open(FILEINFO_EXTENSION), $upload->getTemporaryFile());
+			if ($exts && $exts !== '???') {
+				return preg_replace('~[/,].*~', '', $exts);
+			}
+			[, , $type] = @getimagesize($upload->getTemporaryFile()); // @ - files smaller than 12 bytes causes read error
+			if ($type) {
+				return image_type_to_extension($type, false);
+			}
+		}
+		return null;
 	}
 }

@@ -8,6 +8,6 @@ use Stepapo\Utils\Injectable;
 use Stepapo\Utils\Service;
 
 
-class TemplateFactory extends \Nette\Bridges\ApplicationLatte\TemplateFactory implements Injectable, Service
+class TemplateFactory extends \Nette\Bridges\ApplicationLatte\TemplateFactory implements Injectable
 {
 }

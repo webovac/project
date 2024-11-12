@@ -1,1 +1,3 @@
-rm -rf temp/*
+#!/bin/bash
+dir=`dirname $(readlink -f $0)`
+rm -rf $dir/../temp/*
