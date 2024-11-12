@@ -31,7 +31,6 @@ class AppFileUploader implements FileUploader, Service
 			$checksum
 		);
 		file_put_contents($path, $content, LOCK_EX);
-		unlink($upload->getTemporaryFile());
 		return $identifier;
 	}
 
