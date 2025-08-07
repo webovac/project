@@ -24,7 +24,7 @@ class AppFileUploader implements FileUploader, Service
 	public function upload(FileUpload $upload, string $namespace = 'cms'): string
 	{
 		$content = file_get_contents($upload->getTemporaryFile());
-		$checksum = call_user_func_array(self::ALGORITHM_CONTENT, [$content]);
+		$checksum = sha1_file($upload->getTemporaryFile());
 		[$path, $identifier] = $this->getSavePath(
 			Strings::webalize($this->getSanitizedName($upload), '._'),
 			$namespace,
@@ -73,6 +73,7 @@ class AppFileUploader implements FileUploader, Service
 	/** @throws ImageExtensionException */
 	private function getSavePath(string $name, string $namespace, string $checksum): array
 	{
+		ini_set('memory_limit', '256M');
 		$prefix = substr($checksum, 0, 2);
 		$dir = implode('/', [$this->dir->getWwwDir() . '/data', $namespace, $prefix]);
 		@mkdir($dir, 0775, true);
@@ -83,7 +84,7 @@ class AppFileUploader implements FileUploader, Service
 		$name = $matches[1];
 		$extension = $matches[2];
 		while (file_exists($path = $dir . '/' . $name . $extension)) {
-			if (call_user_func_array(self::ALGORITHM_CONTENT, [file_get_contents($path)]) === $checksum) {
+			if (sha1_file($path) === $checksum) {
 				break;
 			}
 			$name = (!isset($i) && ($i = 2)) ? $name . '.' . $i : substr($name, 0, -(2 + (int) floor(log($i - 1, 10)))) . '.' . $i;

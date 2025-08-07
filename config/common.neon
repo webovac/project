@@ -8,7 +8,19 @@ application:
 session:
 	expiration: 14 days
 	savePath: %rootDir%/sessions
-	cookieDomain: %webovac.core.host%
+	cookieDomain: %webovac.core.parameters.host%
+
+di:
+	lazy: true
+
+php:
+	date.timezone: Europe/Prague
+
+services:
+	routerFactory: App\Router\RouterFactory
+	router: @routerFactory::create
+	webovac.core.orm.metadataStorage:
+		lazy: false
 
 extensions:
 	webovac.core: Webovac\Core\DI\CoreExtension
