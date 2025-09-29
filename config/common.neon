@@ -1,9 +1,9 @@
 application:
 	catchExceptions: %productionMode%
-	errorPresenter: Error
-	scanDirs: [%vendorDir%/webovac/core]
+	errorPresenter: Core:Error
+	scanDirs: [%vendorDir%/webovac]
 	mapping:
-		*: 'Webovac\Core\Presenter\*\**Presenter'
+		*: 'Webovac\*\Presenter\**Presenter'
 
 session:
 	expiration: 14 days
