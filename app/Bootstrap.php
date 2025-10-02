@@ -19,12 +19,18 @@ class Bootstrap
 		if ($testMode) {
 			$configurator->addConfig($rootDir . '/config/test.neon');
 		}
+		$debugMode = !$testMode && getenv('NETTE_DEVEL') === '1';
+		if ($debugMode || $testMode) {
+			$configurator
+				->createRobotLoader()
+				->addDirectory($rootDir . '/app')
+				->addDirectory($rootDir . '/build')
+				->addDirectory($rootDir . '/lib')
+				->register();
+		}
 		$configurator
-			->createRobotLoader()
-			->addDirectory($rootDir . '/app')
-			->register();
-		$configurator
-			->setDebugMode(!$testMode && getenv('NETTE_DEVEL') === '1')
+			->setDebugMode($debugMode)
+//			->setDebugMode(true)
 			->enableTracy($rootDir . '/log');
 		return $configurator;
 	}

@@ -1,7 +1,8 @@
 parameters:
 	webovac:
 		core:
-			host: # example.test
+			parameters:
+				host: # example.com
 			db:
 				driver: # mysql
 				database: # webovac
